@@ -2,11 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.TestValidationDto;
 import com.example.demo.exception.NamedException;
+import com.example.demo.service.validator.annotation.AnnotationTestDtoValidator;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +17,7 @@ import javax.validation.constraints.*;
 public class TestValidationController {
 
     @PostMapping("dtoValidate")
-    public TestValidationDto validationDtoTest(@RequestBody @Valid TestValidationDto dto) {
+    public TestValidationDto validationDtoTest(@RequestBody @AnnotationTestDtoValidator(message = "this is new costume message") @Valid TestValidationDto dto) {
         return dto;
     }
 

@@ -3,34 +3,33 @@ package com.example.demo.controller;
 import com.example.demo.dto.CatDTO;
 import com.example.demo.entity.Cat;
 import com.example.demo.service.CatService;
-import com.example.demo.service.UserService;
 import com.example.demo.service.mapper.CatDTOMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
-import java.time.LocalDate;
-import java.util.Date;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("api/cats")
 @RequiredArgsConstructor
+@Validated
 public class CatController {
 
     private final CatService catService;
 
     private final CatDTOMapper catMapper;
 
-//    @PostMapping("/add")
-//    public void createCat(@RequestBody Cat cat) {
-//        catService.createCat(cat);
-//    }
+    @PostMapping("/add")
+    public void createCat(@RequestBody @Valid CatDTO cat) {
+        catService.createCat(cat);
+    }
 
     @GetMapping("/check")
-    public boolean existsCat(@RequestParam String catName) {
+    public boolean existsCat(@RequestParam @NotNull String catName) {
         return catService.catExists(catName);
     }
 

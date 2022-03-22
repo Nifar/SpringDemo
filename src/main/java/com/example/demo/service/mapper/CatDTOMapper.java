@@ -3,9 +3,10 @@ package com.example.demo.service.mapper;
 import com.example.demo.dto.CatDTO;
 import com.example.demo.entity.Cat;
 import com.example.demo.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class CatDTOMapper implements EntityToDTOMapper<Cat, CatDTO> {
@@ -37,6 +38,9 @@ public class CatDTOMapper implements EntityToDTOMapper<Cat, CatDTO> {
     @Override
     public Cat toEntity(CatDTO dto, Object... args) {
         Cat entity = modelMapper.map(dto, Cat.class);
+        if (entity.getId() == null) {
+            entity.setId(UUID.randomUUID());
+        }
         entity.setOwner(userService.read(dto.getOwnerId()).get());
         return entity;
     }
