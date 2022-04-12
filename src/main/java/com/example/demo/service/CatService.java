@@ -6,6 +6,8 @@ import com.example.demo.repository.CatsRepository;
 import com.example.demo.repository.UsersRepository;
 import com.example.demo.service.mapper.CatDTOMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -47,5 +49,9 @@ public class CatService {
 
     public List<Cat> getCatsByUsername(String username) {
         return catsRepository.findByOwner(usersRepository.findByUsername(username).get());
+    }
+
+    public Page<CatDTO> getAll(Pageable pageable) {
+        return catsRepository.findAll(pageable).map(catMapper::toDTO);
     }
 }

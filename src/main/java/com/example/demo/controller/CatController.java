@@ -5,6 +5,10 @@ import com.example.demo.entity.Cat;
 import com.example.demo.service.CatService;
 import com.example.demo.service.mapper.CatDTOMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +26,11 @@ public class CatController {
     private final CatService catService;
 
     private final CatDTOMapper catMapper;
+
+    @GetMapping
+    public Page<CatDTO> getAll(@PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return catService.getAll(pageable);
+    }
 
     @PostMapping("/add")
     public void createCat(@RequestBody @Valid CatDTO cat) {
